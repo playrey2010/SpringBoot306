@@ -8,14 +8,28 @@
     <title>Index Page</title>
 </head>
 <body>
-<h2>Welcome Page</h2>
-<p th:if="${message}">[[${message}]]</p>
-<a th:href="@{/admin}">Admin Page</a>
-<br>
+<h1>Director List</h1>
+<div th:each="director : ${directors}">
+    <h2 th:text="${director.name}"></h2>
+    <a th:href="@{/updateDirector/{id}(id=${director.id})}">Update Director</a>
+    <br>
+    <a th:href="@{/deleteDirector/{id}(id=${director.id})}">Delete Director</a>
+    <h6 th:inline="text">specializing in [[${director.genre}]]</h6>
+    <ul>
+        <th:block th:each="movie : ${director.movies}">
+            <li th:inline="text"><b>[[${movie.title}]]</b> released in
+                [[${movie.year}]].</li>
+            <li><a th:href="@{/updateMovie/{id}(id=${movie.id})}">Update Movie</a></li>
+            <li><a th:href="@{/deleteMovie/{id}(id=${movie.id})}">Delete Movie</a></li>
+
+        </th:block>
+    </ul>
+</div>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Logout">
 </form>
-
+<a th:href="@{/addDirector}">Add Director</a>
+<a th:href="@{/addMovie}">Add Movie</a>
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
